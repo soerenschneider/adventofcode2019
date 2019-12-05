@@ -6,6 +6,7 @@ import (
 	"github.com/soerenschneider/adventofcode2019/day02"
 	"github.com/soerenschneider/adventofcode2019/day03"
 	"github.com/soerenschneider/adventofcode2019/day04"
+	"github.com/soerenschneider/adventofcode2019/day05"
 )
 
 func main() {
@@ -16,4 +17,6 @@ func main() {
 	day03.Answer03()
 
 	day04.Answer04()
+	
+	day05.Answer05()
 }
