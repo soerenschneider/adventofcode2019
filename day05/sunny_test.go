@@ -458,7 +458,7 @@ func TestInterpreter_c6(t *testing.T) {
 				opcode: 1,
 			},
 			alphabet: []int{0,0,3,4},
-			pointer: -1,
+			pointer: 4,
 		},
 	}
 	for _, tt := range tests {
