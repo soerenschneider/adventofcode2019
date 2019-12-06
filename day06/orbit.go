@@ -53,11 +53,11 @@ func (g *Graph) bfs(n *Node) map[Node]int {
 	dist := 0
 
 	for len(queue) > 0 {
-		Node := queue[0]
+		node := queue[0]
 		queue = queue[1:]
 		dist++
 
-		for _, edge := range g.edges[*Node] {
+		for _, edge := range g.edges[*node] {
 			if _, visited := ret[*edge]; !visited {
 				ret[*edge] = dist
 				queue = append(queue, edge)
