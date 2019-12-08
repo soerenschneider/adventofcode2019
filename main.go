@@ -8,6 +8,7 @@ import (
 	"github.com/soerenschneider/adventofcode2019/day04"
 	"github.com/soerenschneider/adventofcode2019/day05"
 	"github.com/soerenschneider/adventofcode2019/day06"
+	"github.com/soerenschneider/adventofcode2019/day08"
 )
 
 func main() {
@@ -22,5 +23,7 @@ func main() {
 	day05.Answer05()
 	fmt.Println("------------")
 	day06.Answer06()
+	fmt.Println("------------")
+	day08.Answer08()
 	fmt.Println("------------")
 }
