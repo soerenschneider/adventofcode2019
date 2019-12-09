@@ -60,13 +60,14 @@ func (i *Interpreter) halt() bool {
 }
 
 func (i *Interpreter) get(n int, opcode Opcode) (addr int64) {
+	pos := n + i.pointer
 	switch opcode.modes[n-1] {
 	case POS:
-		addr = i.alphabet[n + i.pointer]
+		addr = i.alphabet[pos]
 	case IMM:
-		addr = int64(n + i.pointer)
+		addr = int64(pos)
 	case REL:
-		addr = i.relPosition + i.alphabet[n + i.pointer]
+		addr = i.relPosition + i.alphabet[pos]
 	}
 
 	// Grow slice before accessing non-negative, out-of-range address space
