@@ -43,7 +43,8 @@ func DetermineMaxObersableAsteroids(asteroids []Coordinate) (Coordinate, int) {
 			}
 
 			angle := source.Angle(target)
-			_, found := targets[angle]; if !found {
+			_, found := targets[angle]
+			if !found {
 				targets[angle] = void{}
 				oberservableAsteroids++
 			}
@@ -57,7 +58,6 @@ func DetermineMaxObersableAsteroids(asteroids []Coordinate) (Coordinate, int) {
 
 	return maxCoord, maxObservableAsteroids
 }
-
 
 func getSortedAngles(targets map[float64]map[int]Coordinate) []float64 {
 	angles := make([]float64, len(targets))
@@ -78,7 +78,7 @@ func getTargetsWithDistance(coordinates []Coordinate, source Coordinate) map[flo
 			angle := source.Angle(target)
 			distance := source.Distance(target)
 
-			_, found := targets[angle];
+			_, found := targets[angle]
 			if !found {
 				// Build list to append other asteroids to
 				targets[angle] = make(map[int]Coordinate)
@@ -86,7 +86,7 @@ func getTargetsWithDistance(coordinates []Coordinate, source Coordinate) map[flo
 			targets[angle][distance] = target
 		}
 	}
-	
+
 	return targets
 }
 
@@ -144,7 +144,7 @@ func (c *Coordinate) String() string {
 }
 
 func (c *Coordinate) Distance(other Coordinate) int {
-	return AbsInt(c.X - other.X) + AbsInt(c.Y - other.Y)
+	return AbsInt(c.X-other.X) + AbsInt(c.Y-other.Y)
 }
 
 func (c *Coordinate) Angle(t Coordinate) float64 {
@@ -169,7 +169,7 @@ func Answer10() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("Iteration %d: %d", iteration, jackpot.Y*100 + jackpot.X)
+	fmt.Printf("Iteration %d: %d", iteration, jackpot.Y*100+jackpot.X)
 }
 
 func ReadStringLinesFromFile(path string) []string {

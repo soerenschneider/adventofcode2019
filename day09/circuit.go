@@ -86,8 +86,9 @@ func parseOpcode(instruction int64) Opcode {
 	ret.parameters = opcodeParameterCount[ret.opcode]
 
 	for instruction /= 100; len(ret.modes) < ret.parameters; instruction /= 10 {
-		ret.modes = append(ret.modes, mode(instruction%10))
+		ret.modes = append(ret.modes, mode(instruction % 10))
 	}
+	
 	return ret
 }
 
