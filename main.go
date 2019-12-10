@@ -1,11 +1,9 @@
 package main
 
 import (
-	"github.com/soerenschneider/adventofcode2019/day09"
+	"github.com/soerenschneider/adventofcode2019/day10"
 )
 
 func main() {
-	day09.Answer09()
-	return
+	day10.Answer10()
 }
-
