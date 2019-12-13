@@ -1,12 +1,9 @@
 package day06
 
 import (
-	"bufio"
 	"fmt"
-	"log"
+	"github.com/soerenschneider/adventofcode2019/util"
 	"math"
-	"os"
-	"path/filepath"
 	"strings"
 )
 
@@ -132,7 +129,7 @@ func (g *Graph) ConnectedNodes() int {
 }
 
 func Answer06() {
-	rawInput := ReadInput("resources/day06/input.txt")
+	rawInput := util.ReadStringLinesFromFile("resources/day06/input.txt")
 	input, _ := Parse(rawInput)
 
 	g := Graph{}
@@ -143,30 +140,4 @@ func Answer06() {
 
 	minDist := g.MinDist(g.GetNodeByValue("YOU"), g.GetNodeByValue("SAN"))
 	fmt.Printf("Min dist: %d\n", minDist)
-}
-
-func ReadInput(path string) []string {
-	absPath, err := filepath.Abs(path); if err != nil {
-		log.Fatalf("")
-	}
-
-	file, err := os.Open(absPath)
-	if err != nil {
-		log.Fatal("could not open file")
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	var ret []string
-
-	for scanner.Scan() {
-		line := scanner.Text()
-		ret = append(ret, line)
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatalf("couldn't read file: %s", err.Error())
-	}
-
-	return ret
 }
