@@ -24,6 +24,38 @@ func ReadStringLinesFromFile(path string) []string {
 	return strings.Split(input, "\n")
 }
 
+func ReadIntLines(path string) []int {
+	lines := ReadStringLinesFromFile(path)
+	var result []int
+
+	for _, line := range lines {
+		intValue, err := strconv.Atoi(line)
+		if err != nil {
+			log.Fatal(err)
+		}
+		result = append(result, intValue)
+	}
+
+	return result
+}
+
+
+func ReadIntArray(path string) (mem []int) {
+	input, _ := ioutil.ReadFile(path)
+	split := strings.Split(strings.TrimSpace(string(input)), ",")
+	mem = make([]int, len(split))
+
+	for i, s := range split {
+		x, err := strconv.ParseInt(s, 10, 0)
+		if err != nil {
+			log.Fatal("error reading input")
+		}
+		mem[i] = int(x)
+	}
+
+	return
+}
+
 func ReadInt64Array(path string) (mem []int64) {
 	input, _ := ioutil.ReadFile(path)
 	split := strings.Split(strings.TrimSpace(string(input)), ",")
@@ -34,7 +66,7 @@ func ReadInt64Array(path string) (mem []int64) {
 		if err != nil {
 			log.Fatal("error reading input")
 		}
-		mem[i] = int64(x)
+		mem[i] = x
 	}
 
 	return

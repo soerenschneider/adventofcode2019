@@ -1,6 +1,7 @@
 package day01
 
 import (
+	"math"
 	"testing"
 )
 
@@ -43,42 +44,96 @@ func equal(a, b []int) bool {
 	return true
 }
 
-func TestRead(t *testing.T) {
+func NaiveTestRequiredFuel(t *testing.T) {
 	tests := []struct {
-		name    string
-		path    string
-		want    []int
-		wantErr bool
+		name string
+		arg int
+		want int
 	}{
 		{
-			name: "readInput bonjour",
-			path: "../resources/test/testfile.txt",
-			want: []int{5},
-			wantErr: false,
+			name: "Example 1",
+			arg: 12,
+			want: 2,
 		},
 		{
-			name: "readInput non existent file",
-			path: "../resources/test/non-existent.txt",
-			want: nil,
-			wantErr: true,
+			name: "Example 2",
+			arg: 14,
+			want: 2,
 		},
 		{
-			name: "readInput invalid file",
-			path: "../test/testfile-invalid.txt",
-			want: nil,
-			wantErr: true,
+			name: "Example 3",
+			arg: 1969,
+			want: 654,
+		},
+		{
+			name: "Example 4",
+			arg: 100756,
+			want: 33583,
+		},
+		{
+			name: "Extremes: zero",
+			arg: 0,
+			want: -2,
+		},
+		{
+			name: "Extremes: negative",
+			arg: -1,
+			want: 2,
 		},
 	}
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := ReadModules(tt.path)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("readInput() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !equal(got, tt.want) {
-				t.Errorf("readInput() got = %v, want %v", got, tt.want)
+		t.Run("Acceptance", func(t *testing.T) {
+			m := &Calc01{}
+			if got := m.RequiredFuel(tt.arg); got != tt.want {
+				t.Errorf("RequiredFuelNaive() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
+
+func TestFuelCalculator(t *testing.T) {
+	type args struct {
+		n int
+	}
+	tests := []struct {
+		name string
+		n int
+		want int
+	}{
+		{
+			name: "Example 1",
+			n: 1969,
+			want: 966,
+		},
+		{
+			name: "Example 2",
+			n: 100756,
+			want: 50346,
+		},
+		{
+			name: "Extreme: zero",
+			n: 0,
+			want: 0,
+		},
+		{
+			name: "Extreme: negative",
+			n: -1,
+			want: 0,
+		},
+		{
+			name: "Extreme: max",
+			n: math.MaxInt32,
+			want: 1073741757,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m := Calc01b{}
+			if got := m.RequiredFuel(tt.n); got != tt.want {
+				t.Errorf("RequiredFuel() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+
