@@ -387,9 +387,9 @@ func TestVector_HasNullValue(t *testing.T) {
 
 func Test_updateAxisInformation(t *testing.T) {
 	type args struct {
-		moon               Moon
-		other              Moon
-		axisAtInitialState []bool
+		moon          Moon
+		other         Moon
+		identicalAxis []bool
 	}
 	tests := []struct {
 		name string
@@ -406,7 +406,7 @@ func Test_updateAxisInformation(t *testing.T) {
 					position: Vector{1, 1, 1},
 					velocity: Vector{0, 0, 0},
 				},
-				axisAtInitialState: []bool{
+				identicalAxis: []bool{
 					true, true, true,
 				},
 			},
@@ -415,9 +415,9 @@ func Test_updateAxisInformation(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			updateAxisInformation(tt.args.moon, tt.args.other, tt.args.axisAtInitialState)
-			if !reflect.DeepEqual(tt.args.moon, tt.want) {
-				t.Errorf("moon, got = %v, want %v", tt.args.axisAtInitialState, tt.want)
+			updateAxisInformation(tt.args.moon, tt.args.other, tt.args.identicalAxis)
+			if !reflect.DeepEqual(tt.args.identicalAxis, tt.want) {
+				t.Errorf("moon, got = %v, want %v", tt.args.identicalAxis, tt.want)
 			}
 
 		})
