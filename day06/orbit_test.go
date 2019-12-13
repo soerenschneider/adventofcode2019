@@ -2,6 +2,7 @@ package day06
 
 import (
 	"fmt"
+	"github.com/soerenschneider/adventofcode2019/util"
 	"reflect"
 	"testing"
 )
@@ -156,7 +157,7 @@ func TestGraph_Complete(t *testing.T) {
 
 func TestGraph_MinDist_Indirect(t *testing.T) {
 	g := Graph{}
-	rawInput := ReadInput("../resources/day06/test2.txt")
+	rawInput := util.ReadStringLinesFromFile("../resources/day06/test2.txt")
 	expected := 4
 	nodes, _ := Parse(rawInput)
 	g.Add(nodes)
@@ -168,7 +169,7 @@ func TestGraph_MinDist_Indirect(t *testing.T) {
 
 func TestGraph_MinDist_Direct(t *testing.T) {
 	g := Graph{}
-	rawInput := ReadInput("../resources/day06/test2.txt")
+	rawInput := util.ReadStringLinesFromFile("../resources/day06/test2.txt")
 	expected := 3
 	nodes, _ := Parse(rawInput)
 	g.Add(nodes)
@@ -187,7 +188,7 @@ func TestParse(t *testing.T) {
 	}{
 		{
 			name: "Positive",
-			args:  ReadInput("../resources/day06/test.txt"),
+			args:  util.ReadStringLinesFromFile("../resources/day06/test.txt"),
 			want: [][2]string{
 				{"B", "COM"},
 				{"C", "B"},
