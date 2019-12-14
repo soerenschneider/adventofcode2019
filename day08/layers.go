@@ -1,13 +1,10 @@
 package day08
 
 import (
-	"bufio"
 	"errors"
 	"fmt"
-	"log"
+	"github.com/soerenschneider/adventofcode2019/util"
 	"math"
-	"os"
-	"path/filepath"
 	"regexp"
 )
 
@@ -83,7 +80,7 @@ func (i *ImageLayer) Count(digit int) int {
 }
 
 func Answer08() {
-	data := ReadInput("resources/day08/input.txt")
+	data := util.ReadStringLinesFromFile("resources/day08/input.txt")
 	img, _ := ParseImage(data[0],   25, 6)
 	layer := img.GetLayerWithFewestDigits(0)
 	a := layer.Count(1)
@@ -144,30 +141,4 @@ func (i *Image) getDimensions() []int {
 	x := len(i.layers[0].data[0])
 	y := len(i.layers[0].data)
 	return []int{x,y}
-}
-
-func ReadInput(path string) []string {
-	absPath, err := filepath.Abs(path); if err != nil {
-		log.Fatalf("")
-	}
-
-	file, err := os.Open(absPath)
-	if err != nil {
-		log.Fatal("could not open file")
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	var ret []string
-
-	for scanner.Scan() {
-		line := scanner.Text()
-		ret = append(ret, line)
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatalf("couldn't read file: %s", err.Error())
-	}
-
-	return ret
 }
