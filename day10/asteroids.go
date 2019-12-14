@@ -2,11 +2,10 @@ package day10
 
 import (
 	"fmt"
-	"io/ioutil"
+	"github.com/soerenschneider/adventofcode2019/util"
 	"log"
 	"math"
 	"sort"
-	"strings"
 )
 
 const (
@@ -157,7 +156,7 @@ func (c *Coordinate) Angle(t Coordinate) float64 {
 }
 
 func Answer10() {
-	input := ReadStringLinesFromFile("resources/day10/input.txt")
+	input := util.ReadStringLinesFromFile("resources/day10/input.txt")
 	asteroids := ParseCoordinates(input)
 	DetermineMaxObersableAsteroids(asteroids)
 	coord, obersable := DetermineMaxObersableAsteroids(asteroids)
@@ -170,13 +169,4 @@ func Answer10() {
 		log.Fatal(err)
 	}
 	fmt.Printf("Iteration %d: %d", iteration, jackpot.Y*100+jackpot.X)
-}
-
-func ReadStringLinesFromFile(path string) []string {
-	inputBytes, err := ioutil.ReadFile(path)
-	if err != nil {
-		log.Fatalf("error reading file %s: %s", path, err.Error())
-	}
-	input := string(inputBytes)
-	return strings.Split(input, "\n")
 }

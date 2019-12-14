@@ -1,6 +1,7 @@
 package day10
 
 import (
+	"github.com/soerenschneider/adventofcode2019/util"
 	"reflect"
 	"testing"
 )
@@ -55,7 +56,7 @@ func TestReadStringLinesFromFile(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := ReadStringLinesFromFile(tt.filename); !reflect.DeepEqual(got, tt.want) {
+			if got := util.ReadStringLinesFromFile(tt.filename); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ReadStringLinesFromFile() = %v, want %v", got, tt.want)
 			}
 		})
