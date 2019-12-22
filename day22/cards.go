@@ -45,7 +45,7 @@ func NewCardDeck(n int) *cards {
 	return ret
 }
 
-func parseArg(instr string) int {
+func parseArg(instr string) (int, error) {
 	cut := -1
 	if strings.HasPrefix(instr, instIncre) {
 		cut = len(instIncre)
@@ -54,21 +54,21 @@ func parseArg(instr string) int {
 	}
 	
 	if cut == -1 {
-		return -1
+		return -1, fmt.Errorf("no argument to parse in %s", instr)
 	}
 
 	paramIndex := instr[cut:]
-	i, _ := strconv.Atoi(paramIndex)
-	return i
+	i, err := strconv.Atoi(paramIndex)
+	return i, err
 }
 
 func (c *cards) Shuffle(instructions []string) {
 	for _, instr := range instructions {
 		if strings.HasPrefix(instr, instIncre) {
-			n := parseArg(instr)
+			n, _ := parseArg(instr)
 			c.Increment(n)
 		} else if strings.HasPrefix(instr, instCut) {
-			n := parseArg(instr)
+			n, _ := parseArg(instr)
 			c.Cut(n)
 		} else if strings.HasPrefix(instr, instDeal){
 			c.Deal()

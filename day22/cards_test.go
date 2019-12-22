@@ -111,27 +111,50 @@ func Test_parseArg(t *testing.T) {
 		instr string
 	}
 	tests := []struct {
-		name string
-		args args
-		want int
+		name    string
+		args    args
+		want    int
+		wantErr bool
 	}{
 		{
 			args: args{
 				instr: "deal with increment 20",
 			},
 			want: 20,
+			wantErr: false,
 		},
 		{
 			args: args{
 				instr: "cut -2565",
 			},
 			want: -2565,
+			wantErr: false,
 		},
+		{
+			args: args{
+				instr: "jndsaf",
+			},
+			want: -1,
+			wantErr: true,
+		},
+		{
+			args: args{
+				instr: "cut ",
+			},
+			want: 0,
+			wantErr: true,
+		},
+
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := parseArg(tt.args.instr); got != tt.want {
+			got, err := parseArg(tt.args.instr)
+			if got != tt.want {
 				t.Errorf("parseArg() = %v, want %v", got, tt.want)
+			}
+			if (err != nil) != tt.wantErr {
+				t.Errorf("parseArg() error = %v, wantErr %v", err, tt.wantErr)
+				return
 			}
 		})
 	}
@@ -150,37 +173,37 @@ func Test_perform(t *testing.T) {
 		{
 			args: args{
 				file: "../resources/day22/test1.txt",
-				n: 10,
+				n:    10,
 			},
 			want: &cards{
-					deck: []int {0,3,6,9,2,5,8,1,4,7},
+				deck: []int{0, 3, 6, 9, 2, 5, 8, 1, 4, 7},
 			},
 		},
 		{
 			args: args{
 				file: "../resources/day22/test2.txt",
-				n: 10,
+				n:    10,
 			},
 			want: &cards{
-				deck: []int {3, 0, 7, 4, 1, 8, 5, 2, 9, 6},
+				deck: []int{3, 0, 7, 4, 1, 8, 5, 2, 9, 6},
 			},
 		},
 		{
 			args: args{
 				file: "../resources/day22/test3.txt",
-				n: 10,
+				n:    10,
 			},
 			want: &cards{
-				deck: []int {6,3,0,7,4,1,8,5,2,9},
+				deck: []int{6, 3, 0, 7, 4, 1, 8, 5, 2, 9},
 			},
 		},
 		{
 			args: args{
 				file: "../resources/day22/test4.txt",
-				n: 10,
+				n:    10,
 			},
 			want: &cards{
-				deck: []int {9,2,5,8,1,4,7,0,3,6},
+				deck: []int{9, 2, 5, 8, 1, 4, 7, 0, 3, 6},
 			},
 		},
 	}
