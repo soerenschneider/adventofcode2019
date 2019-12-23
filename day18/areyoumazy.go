@@ -16,6 +16,7 @@ var (
 
 const (
 	maxRobots    = 4
+	maxKeys 	 = 'Z' - 'A' + 1
 	dispPosition = '@'
 	dispWall     = '#'
 	dispPath     = '.'
@@ -23,13 +24,13 @@ const (
 
 type state struct {
 	Pos    [maxRobots]util.Coordinate
-	Keys   [26]bool
+	Keys   [maxKeys]bool
 	Active int
 }
 
 type maze struct {
 	start     state
-	goal      [26]bool
+	goal      [maxKeys]bool
 	field     map[util.Coordinate]rune
 	numRobots int
 }
