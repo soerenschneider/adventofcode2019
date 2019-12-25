@@ -35,7 +35,7 @@ func Answer25() int64 {
 		if o == done {
 			fmt.Println(buffer.String())
 			buffer.Reset()
-		} else if isAscii(o) {
+		} else if util.IsAscii(o) {
 			buffer.WriteByte(byte(o))
 		} else {
 			fmt.Println(buffer.String())
@@ -43,9 +43,5 @@ func Answer25() int64 {
 		}
 	}
 	return -1
-}
-
-func isAscii(o int64) bool {
-	return o >= 0 && o <= 128
 }
 

@@ -16,7 +16,6 @@ const (
 	posWest       = "<"
 	posSouth      = "v"
 	posEast       = ">"
-	asciiMaxValue = 128
 )
 
 var (
@@ -169,7 +168,7 @@ func Answer17b() {
 	}
 
 	for output := range out {
-		if output > asciiMaxValue {
+		if !util.IsAscii(output) {
 			fmt.Println(output)
 		}
 	}

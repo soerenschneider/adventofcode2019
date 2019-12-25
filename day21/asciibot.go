@@ -36,7 +36,7 @@ func NewAsciiBot(mode mode, script []string) (*asciiBot, error) {
 }
 
 func (b *asciiBot) processOutput(botOutput int64, botInput chan int64) int64 {
-	if !isAscii(botOutput) {
+	if !util.IsAscii(botOutput) {
 		return botOutput
 	} else if botOutput == botFinishedSignal {
 		message := b.outputBuffer.String()
@@ -63,10 +63,6 @@ func send(input string, in chan<- int64) {
 	for _, c := range input {
 		in <- int64(c)
 	}
-}
-
-func isAscii(i int64) bool {
-	return 0 <= i && i <= 128
 }
 
 func Answer21() {
