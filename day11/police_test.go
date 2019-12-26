@@ -1,7 +1,7 @@
 package day11
 
 import (
-	"image"
+	"github.com/soerenschneider/adventofcode2019/util"
 	"reflect"
 	"testing"
 )
@@ -9,51 +9,51 @@ import (
 func Test_hull_move(t *testing.T) {
 	type fields struct {
 		direction int
-		position image.Point
+		position util.Coordinate
 	}
 	tests := []struct {
 		name   	string
 		fields 	fields
 		turn 	int64
-		wantPos image.Point
+		wantPos util.Coordinate
 		wantDir int
 	}{
 		{
 			fields: fields{
-				position: image.Point{2,2},
+				position: util.Coordinate{2,2},
 			},
-			wantPos: image.Point{1,2},
+			wantPos: util.Coordinate{1,2},
 			turn: 0,
 		},
 		{
 			fields: fields{
-				position: image.Point{1,2},
+				position: util.Coordinate{1,2},
 				direction: 1,
 			},
-			wantPos: image.Point{1,3},
+			wantPos: util.Coordinate{1,3},
 			turn: 0,
 		},
 		{
 			fields: fields{
-				position: image.Point{1,3},
+				position: util.Coordinate{1,3},
 				direction: 3,
 			},
-			wantPos: image.Point{1,2},
+			wantPos: util.Coordinate{1,2},
 			turn: 0,
 		},
 		{
 			fields: fields{
-				position: image.Point{1,3},
+				position: util.Coordinate{1,3},
 				direction: 3,
 			},
-			wantPos: image.Point{1,4},
+			wantPos: util.Coordinate{1,4},
 			turn: 1,
 		},
 		{
 			fields: fields{
-				position: image.Point{2,2},
+				position: util.Coordinate{2,2},
 			},
-			wantPos: image.Point{3,2},
+			wantPos: util.Coordinate{3,2},
 			turn: 1,
 		},
 	}

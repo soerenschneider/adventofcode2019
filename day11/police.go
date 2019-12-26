@@ -3,25 +3,24 @@ package day11
 import (
 	"fmt"
 	"github.com/soerenschneider/adventofcode2019/util"
-	"image"
 )
 
-var directions = []image.Point{{0, -1}, {-1, 0}, {0, 1}, {1, 0}}
+var directions = []util.Coordinate{{0, -1}, {-1, 0}, {0, 1}, {1, 0}}
 var output = map[int64]string{1: "##", 0: "  "}
 
 type rob struct {
-	position  image.Point
+	position  util.Coordinate
 	direction int
 }
 
 func (r *rob) move(turn int64) {
 	r.direction = (r.direction + 2 * int(turn) + 1) % 4
-	r.position = r.position.Add(directions[r.direction])
+	r.position = r.position.Move(directions[r.direction])
 }
 
-func PaintHull(in chan int64, out chan int64, initHull bool) map[image.Point]int64 {
+func PaintHull(in chan int64, out chan int64, initHull bool) map[util.Coordinate]int64 {
 	rob := rob{}
-	hull := map[image.Point]int64{}
+	hull := map[util.Coordinate]int64{}
 
 	if initHull {
 		hull[rob.position] = 1
@@ -40,10 +39,10 @@ func PaintHull(in chan int64, out chan int64, initHull bool) map[image.Point]int
 	return hull
 }
 
-func PrintMessage(hull map[image.Point]int64) {
+func PrintMessage(hull map[util.Coordinate]int64) {
 	for y := 0; y < 6; y++ {
 		for x := 0; x < 50; x++ {
-			tile := output[hull[image.Point{X: x, Y: y}]]
+			tile := output[hull[util.Coordinate{X: x, Y: y}]]
 			fmt.Print(tile)
 		}
 		fmt.Println()
