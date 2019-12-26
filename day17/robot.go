@@ -18,25 +18,6 @@ const (
 	posEast       = ">"
 )
 
-var (
-	North = util.Coordinate{X: 0, Y: -1}
-	South = util.Coordinate{X: 0, Y: 1}
-	West  = util.Coordinate{X: -1, Y: 0}
-	East  = util.Coordinate{X: 1, Y: 0}
-
-	turnLeft = map[util.Coordinate]util.Coordinate{
-		North: West,
-		West:  South,
-		South: East,
-		East:  North}
-
-	turnRight = map[util.Coordinate]util.Coordinate{
-		North: East,
-		East:  South,
-		South: West,
-		West:  North}
-)
-
 func interpretInput(input int) string {
 	return string(rune(input))
 }
@@ -184,22 +165,22 @@ func determinePositionAndDirection(field [][]string) ([]util.Coordinate, error) 
 			case posNorth:
 				return []util.Coordinate{
 					{x, y},
-					North,
+					util.North,
 				}, nil
 			case posSouth:
 				return []util.Coordinate{
 					{x, y},
-					South,
+					util.South,
 				}, nil
 			case posWest:
 				return []util.Coordinate{
 					{x, y},
-					West,
+					util.West,
 				}, nil
 			case posEast:
 				return []util.Coordinate{
 					{x, y},
-					East,
+					util.East,
 				}, nil
 			}
 		}
@@ -225,11 +206,11 @@ func (b *bot) discoverPath() []string {
 			path = append(path, strconv.Itoa(steps))
 		}
 
-		if isScaffold(b.position.Move(turnLeft[b.direction]), b.field) {
-			b.direction = turnLeft[b.direction]
+		if isScaffold(b.position.Move(util.TurnLeft[b.direction]), b.field) {
+			b.direction = util.TurnLeft[b.direction]
 			path = append(path, "L")
-		} else if isScaffold(b.position.Move(turnRight[b.direction]), b.field) {
-			b.direction = turnRight[b.direction]
+		} else if isScaffold(b.position.Move(util.TurnRight[b.direction]), b.field) {
+			b.direction = util.TurnRight[b.direction]
 			path = append(path, "R")
 		} else {
 			quit = true

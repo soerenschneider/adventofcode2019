@@ -6,42 +6,6 @@ import (
 	"testing"
 )
 
-func Test_isAscii(t *testing.T) {
-	tests := []struct {
-		name string
-		args int64
-		want bool
-	}{
-		{
-			args: -1,
-			want: false,
-		},
-		{
-			args: 0,
-			want: true,
-		},
-		{
-			args: 32,
-			want: true,
-		},
-		{
-			args: 128,
-			want: true,
-		},
-		{
-			args: 129,
-			want: false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := isAscii(tt.args); got != tt.want {
-				t.Errorf("isAscii() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 func Test_asciiBot_format(t *testing.T) {
 	type fields struct {
 		mode   mode

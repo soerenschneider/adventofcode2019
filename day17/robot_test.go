@@ -199,7 +199,7 @@ func Test_determinePosition(t *testing.T) {
 			},
 			want: []util.Coordinate{
 				{3, 2},
-				North,
+				util.North,
 			},
 			wantErr: false,
 		},
@@ -214,7 +214,7 @@ func Test_determinePosition(t *testing.T) {
 			},
 			want: []util.Coordinate{
 				{1, 0},
-				South,
+				util.South,
 			},
 			wantErr: false,
 		},
@@ -309,7 +309,7 @@ func Test_bot_discoverPath(t *testing.T) {
 					{".", ".", "#", ".", "."},
 				},
 				position: util.Coordinate{4,0},
-				direction: South,
+				direction: util.South,
 			},
 			want: []string{"2", "R", "4", "R", "2", "R","2", "R", "3"},
 		},
@@ -323,35 +323,6 @@ func Test_bot_discoverPath(t *testing.T) {
 			}
 			if got := b.discoverPath(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("discoverPath() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func Test_compressPath(t *testing.T) {
-	type args struct {
-		path      []string
-		fragments [][]string
-		functions [][]string
-	}
-	tests := []struct {
-		name       string
-		args       args
-		wantResult [][4][]string
-	}{
-		{
-			args: args {
-				path: []string{"R","8","R","8","R","4","R","4","R","8","L","6","L","2","R","4","R","4","R","8","R","8","R","8","L","6","L","2"},
-				fragments: [][]string{[]string{"R","8","R","8","R","4","R","4","R","8","L","6","L","2","R","4","R","4","R","8","R","8","R","8","L","6","L","2"}},
-				functions: nil,
-			},
-			wantResult: [][4][]string{},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if gotResult := compressPath(tt.args.path, tt.args.fragments, tt.args.functions); !reflect.DeepEqual(gotResult, tt.wantResult) {
-				t.Errorf("compressPath() = %v, want %v", gotResult, tt.wantResult)
 			}
 		})
 	}

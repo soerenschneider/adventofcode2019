@@ -2,6 +2,25 @@ package util
 
 import "fmt"
 
+var (
+	North = Coordinate{X: 0, Y: -1}
+	South = Coordinate{X: 0, Y: 1}
+	West  = Coordinate{X: -1, Y: 0}
+	East  = Coordinate{X: 1, Y: 0}
+	Adjacent = []Coordinate{North, South, West, East}
+	TurnLeft = map[Coordinate]Coordinate{
+		North: West,
+		West:  South,
+		South: East,
+		East:  North}
+
+	TurnRight = map[Coordinate]Coordinate{
+		North: East,
+		East:  South,
+		South: West,
+		West:  North}
+)
+
 type Coordinate64 struct {
 	X int64
 	Y int64
@@ -32,4 +51,4 @@ func (c *Coordinate) Move(t Coordinate) Coordinate {
 
 func (c *Coordinate) String() string {
 	return fmt.Sprintf("%d, %d", c.X, c.Y)
-} 
+}
