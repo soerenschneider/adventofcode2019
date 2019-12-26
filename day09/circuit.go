@@ -5,7 +5,7 @@ import (
 	"github.com/soerenschneider/adventofcode2019/util"
 )
 
-func sunny(input int64) {
+func circuit(input int64) {
 	alphabet := util.ReadInt64Array("resources/day09/input.txt")
 
 	in := make(chan int64, 1)
@@ -21,9 +21,9 @@ func sunny(input int64) {
 }
 
 func Answer09() {
-	sunny(1)
+	circuit(1)
 }
 
 func Answer09b() {
-	sunny(2)
+	circuit(2)
 }
