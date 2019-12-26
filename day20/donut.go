@@ -19,14 +19,6 @@ const (
 	offset				  = 2 * len(target)
 )
 
-var (
-	North    = util.Coordinate{X: 0, Y: -1}
-	South    = util.Coordinate{X: 0, Y: 1}
-	West     = util.Coordinate{X: -1, Y: 0}
-	East     = util.Coordinate{X: 1, Y: 0}
-	Adjacent = []util.Coordinate{North, West, South, East}
-)
-
 type direction int
 type void struct{}
 
@@ -74,7 +66,7 @@ func (f *donut) collectNodes(input []string) {
 
 func (f *donut) detectPath() {
 	for position, node := range f.grid {
-		for _, direction := range Adjacent {
+		for _, direction := range util.Adjacent {
 			n := position.Move(direction)
 
 			if x, ok := f.grid[n]; ok {
@@ -99,7 +91,7 @@ func (f *donut) findPortals(input []string) (*node, *node) {
 		}
 
 		// Move around neighbouring coords 
-		for _, direction := range Adjacent {
+		for _, direction := range util.Adjacent {
 
 			// Move twice in same direction
 			lookaheadOne := curPos.Move(direction)
