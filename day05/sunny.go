@@ -5,30 +5,24 @@ import (
 	"github.com/soerenschneider/adventofcode2019/util"
 )
 
-func Answer05() {
-	input := util.ReadInt64Array("resources/day05/input.txt")
+func sunny(input int64) {
+	alphabet := util.ReadInt64Array("resources/day05/input.txt")
 
 	in := make(chan int64, 1)
 	out := make(chan int64)
-	i := util.NewInterpreter(input, in, out)
+	i := util.NewInterpreter(alphabet, in, out)
 	go i.Execute()
-	
-	in <- 1
+
+	in <- input
 	for o := range out {
 		fmt.Println(o)
 	}
 }
 
+func Answer05() {
+	sunny(1)
+}
+
 func Answer05b() {
-	input := util.ReadInt64Array("resources/day05/input.txt")
-
-	in := make(chan int64, 1)
-	out := make(chan int64)
-	i := util.NewInterpreter(input, in, out)
-	go i.Execute()
-
-	in <- 5
-	for o := range out {
-		fmt.Println(o)
-	}
+	sunny(5)
 }
