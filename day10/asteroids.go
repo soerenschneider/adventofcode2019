@@ -28,7 +28,7 @@ func ParseCoordinates(input []string) []Coordinate {
 	return asteroids
 }
 
-func DetermineMaxObersableAsteroids(asteroids []Coordinate) (Coordinate, int) {
+func DetermineMaxObservableAsteroids(asteroids []Coordinate) (Coordinate, int) {
 	maxObservableAsteroids := 0
 	var maxCoord Coordinate
 
@@ -158,9 +158,9 @@ func (c *Coordinate) Angle(t Coordinate) float64 {
 func Answer10() {
 	input := util.ReadStringLinesFromFile("resources/day10/input.txt")
 	asteroids := ParseCoordinates(input)
-	DetermineMaxObersableAsteroids(asteroids)
-	coord, obersable := DetermineMaxObersableAsteroids(asteroids)
-	fmt.Printf("Coordinates: %v, overseeing %d asteroids\n", coord.flip(), obersable)
+	DetermineMaxObservableAsteroids(asteroids)
+	coord, observable := DetermineMaxObservableAsteroids(asteroids)
+	fmt.Printf("Coordinates: %v, overseeing %d asteroids\n", coord.flip(), observable)
 
 	targets := getTargetsWithDistance(asteroids, coord)
 	iteration := 200

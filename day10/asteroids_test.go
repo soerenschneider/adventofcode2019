@@ -91,12 +91,12 @@ func TestDetermineMaxObersableAsteroids(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, got1 := DetermineMaxObersableAsteroids(tt.input)
+			got, got1 := DetermineMaxObservableAsteroids(tt.input)
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("DetermineMaxObersableAsteroids() coord = %v, want %v", got, tt.want)
+				t.Errorf("DetermineMaxObservableAsteroids() coord = %v, want %v", got, tt.want)
 			}
 			if got1 != tt.wantCnt {
-				t.Errorf("DetermineMaxObersableAsteroids() cnt = %v, want %v", got1, tt.wantCnt)
+				t.Errorf("DetermineMaxObservableAsteroids() cnt = %v, want %v", got1, tt.wantCnt)
 			}
 		})
 	}
