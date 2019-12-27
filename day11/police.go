@@ -5,7 +5,7 @@ import (
 	"github.com/soerenschneider/adventofcode2019/util"
 )
 
-var directions = []util.Coordinate{{0, -1}, {-1, 0}, {0, 1}, {1, 0}}
+var directions = []util.Coordinate{util.North, util.West, util.South, util.East}
 var output = map[int64]string{1: "##", 0: "  "}
 
 type rob struct {
