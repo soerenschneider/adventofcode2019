@@ -5,7 +5,7 @@ import (
 	"github.com/soerenschneider/adventofcode2019/util"
 )
 
-func circuit(input int64) {
+func sensorboost(input int64) {
 	alphabet := util.ReadInt64Array("resources/day09/input.txt")
 
 	in := make(chan int64, 1)
@@ -21,9 +21,9 @@ func circuit(input int64) {
 }
 
 func Answer09() {
-	circuit(1)
+	sensorboost(1)
 }
 
 func Answer09b() {
-	circuit(2)
+	sensorboost(2)
 }
