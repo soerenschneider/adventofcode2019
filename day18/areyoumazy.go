@@ -6,14 +6,6 @@ import (
 	"log"
 )
 
-var (
-	North    = util.Coordinate{X: 0, Y: -1}
-	South    = util.Coordinate{X: 0, Y: 1}
-	West     = util.Coordinate{X: -1, Y: 0}
-	East     = util.Coordinate{X: 1, Y: 0}
-	Adjacent = []util.Coordinate{North, West, South, East}
-)
-
 const (
 	maxRobots    = 4
 	maxKeys 	 = 'Z' - 'A' + 1
@@ -82,7 +74,7 @@ func (m *maze) solve() int {
 			return dist[state]
 		}
 
-		for _, d := range Adjacent {
+		for _, d := range util.Adjacent {
 			lookaheadState := state
 			lookaheadState.Pos[state.Active] = state.Pos[state.Active].Move(d)
 			lookaheadContent := m.field[lookaheadState.Pos[state.Active]]
