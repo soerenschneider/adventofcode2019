@@ -2,6 +2,7 @@ package day07
 
 import (
 	"fmt"
+	"github.com/soerenschneider/adventofcode2019/util"
 	"log"
 	"sync"
 )
@@ -26,47 +27,66 @@ const (
 	IMM = 1
 )
 
-var wg sync.WaitGroup
-
-type Opcode struct {
+type opcode struct {
 	opcode 		int
 	modes  		[]mode
 	parameters 	int
 }
 
-type Interpreter struct {
+type interpreter struct {
 	alphabet 	[]int
 	processed	int
 	pointer		int
 	shutdown	bool
 	input		chan int
 	output		chan int
+	wg 			*sync.WaitGroup
 }
 
-func Phases(input []int, alphabet []int) int {
-	permutations := Permutate(input)
+func Answer07() {
+	alphabet := util.ReadIntArray("resources/day07/input.txt")
+	phase := []int{0,1,2,3,4}
+	ret := Phases(alphabet, phase)
+	fmt.Println(ret)
+}
+
+func Answer07b() {
+	alphabet := util.ReadIntArray("resources/day07/input.txt")
+	phase := []int{5,6,7,8,9}
+	ret := Phases(alphabet, phase)
+	fmt.Println(ret)
+}
+
+func Phases(alphabet []int, phase []int) int {
+	permutations := GetPermutations(phase)
+	
 	max := 0
-	for _, p := range permutations {
-		cost := TryPermutation(alphabet, p)
+	for _, permutation := range permutations {
+		cost := TryPermutation(alphabet, permutation)
 		if cost > max {
 			max = cost
 		}
 	}
+
 	return max
 }
 
 func TryPermutation(alphabet []int, permutation []int) int {
+	wg := &sync.WaitGroup{}
 	var chans []chan int
+
 	for range permutation {
 		chans = append(chans, make(chan int, 1))
 	}
 
 	for phase, perm := range permutation {
-		i := Interpreter{
+		i := interpreter{
 			alphabet: append([]int(nil), alphabet...),
 			input: chans[phase],
 			output: chans[(phase+1)%len(permutation)],
+			wg: wg,
 		}
+
 		wg.Add(1)
 		go i.execute()
 		chans[phase] <- perm
@@ -77,7 +97,7 @@ func TryPermutation(alphabet []int, permutation []int) int {
 	return <- chans[0]
 }
 
-func Permutate(arr []int)[][]int{
+func GetPermutations(arr []int)[][]int{
 	var helper func([]int, int)
 	res := [][]int{}
 
@@ -105,11 +125,11 @@ func Permutate(arr []int)[][]int{
 	return res
 }
 
-func (i *Interpreter) halt() bool {
+func (i *interpreter) halt() bool {
 	return i.shutdown || i.pointer >= len(i.alphabet) - 1
 }
 
-func (i *Interpreter) get(n int, m mode) (int, error) {
+func (i *interpreter) get(n int, m mode) (int, error) {
 	index := n + i.pointer
 	if index > len(i.alphabet) - 1 {
 		return -1, fmt.Errorf("invalid index %d", n+i.pointer)
@@ -130,8 +150,8 @@ func (i *Interpreter) get(n int, m mode) (int, error) {
 	return 0, fmt.Errorf("invalid mode")
 }
 
-func parseOpcode(instruction int) Opcode {
-	ret := Opcode{}
+func parseOpcode(instruction int) opcode {
+	ret := opcode{}
 	ret.opcode = instruction - (instruction / 100 * 100)
 	ret.parameters = opcodeParameterCount[ret.opcode]
 
@@ -142,7 +162,9 @@ func parseOpcode(instruction int) Opcode {
 	return ret
 }
 
-func (i *Interpreter) execute() {
+func (i *interpreter) execute() {
+	defer i.wg.Done()
+
 	for ! i.halt() {
 		cmd := parseOpcode(i.alphabet[i.pointer])
 		switch cmd.opcode {
@@ -163,7 +185,6 @@ func (i *Interpreter) execute() {
 		case 8:
 			i.c8(cmd)
 		case 99:
-			wg.Done()
 			i.c99(cmd)
 		default:
 			log.Fatalf("Encountered unknown code: %d", cmd.opcode)
@@ -173,7 +194,7 @@ func (i *Interpreter) execute() {
 	}
 }
 
-func (i *Interpreter) c1(cmd Opcode) {
+func (i *interpreter) c1(cmd opcode) {
 	a, _ := i.get(1, cmd.modes[0])
 	b, _ := i.get(2, cmd.modes[1])
 	c := i.alphabet[i.pointer + cmd.parameters]
@@ -181,7 +202,7 @@ func (i *Interpreter) c1(cmd Opcode) {
 	i.pointer += 1 + cmd.parameters
 }
 
-func (i *Interpreter) c2(cmd Opcode) {
+func (i *interpreter) c2(cmd opcode) {
 	a, _ := i.get(1, cmd.modes[0])
 	b, _ := i.get(2, cmd.modes[1])
 	c := i.alphabet[i.pointer + cmd.parameters]
@@ -189,20 +210,20 @@ func (i *Interpreter) c2(cmd Opcode) {
 	i.pointer += 1 + cmd.parameters
 }
 
-func (i *Interpreter) c3(cmd Opcode) {
+func (i *interpreter) c3(cmd opcode) {
 	a := i.alphabet[i.pointer + cmd.parameters]
 	read := <- i.input
 	i.alphabet[a] = read
 	i.pointer += 1 + cmd.parameters
 }
 
-func (i *Interpreter) c4(cmd Opcode) {
+func (i *interpreter) c4(cmd opcode) {
 	a, _ := i.get(1, cmd.modes[0])
 	i.output <- a
 	i.pointer += 1 + cmd.parameters
 }
 
-func (i *Interpreter) c5(cmd Opcode) {
+func (i *interpreter) c5(cmd opcode) {
 	a, _ := i.get(1, cmd.modes[0])
 	b, _ := i.get(2, cmd.modes[1])
 	if a != 0 {
@@ -212,7 +233,7 @@ func (i *Interpreter) c5(cmd Opcode) {
 	}
 }
 
-func (i *Interpreter) c6(cmd Opcode) {
+func (i *interpreter) c6(cmd opcode) {
 	a, _ := i.get(1, cmd.modes[0])
 	b, _ := i.get(2, cmd.modes[1])
 	if a == 0 {
@@ -222,7 +243,7 @@ func (i *Interpreter) c6(cmd Opcode) {
 	}
 }
 
-func (i *Interpreter) c7(cmd Opcode) {
+func (i *interpreter) c7(cmd opcode) {
 	a, _ := i.get(1, cmd.modes[0])
 	b, _ := i.get(2, cmd.modes[1])
 	c := i.alphabet[i.pointer + cmd.parameters]
@@ -234,7 +255,7 @@ func (i *Interpreter) c7(cmd Opcode) {
 	i.pointer += 1 + cmd.parameters
 }
 
-func (i *Interpreter) c8(cmd Opcode) {
+func (i *interpreter) c8(cmd opcode) {
 	a, _ := i.get(1, cmd.modes[0])
 	b, _ := i.get(2, cmd.modes[1])
 	c := i.alphabet[i.pointer + cmd.parameters]
@@ -246,7 +267,7 @@ func (i *Interpreter) c8(cmd Opcode) {
 	i.pointer += 1 + cmd.parameters
 }
 
-func (i *Interpreter) c99(cmd Opcode) {
+func (i *interpreter) c99(cmd opcode) {
 	i.shutdown = true
 	i.pointer += 1 + cmd.parameters
 }
